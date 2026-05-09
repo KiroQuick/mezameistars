@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Checkout - Meža meistars</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-tertiary-container": "#A3B18A",
+          "tertiary": "#3A5A40",
+          "inverse-primary": "#588157",
+          "primary-container": "#3A5A40",
+          "inverse-on-surface": "#DAD7CD",
+          "surface-container-highest": "#C0BDB3",
+          "on-surface-variant": "#588157",
+          "primary-fixed": "#A3B18A",
+          "secondary-fixed": "#588157",
+          "surface-container": "#D0CDC3",
+          "surface-container-lowest": "#BDBAB0",
+          "background": "#DAD7CD",
+          "tertiary-fixed-dim": "#588157",
+          "on-error": "#ffffff",
+          "surface-bright": "#DAD7CD",
+          "surface-container-low": "#C8C5BB",
+          "on-secondary-fixed": "#344E41",
+          "on-background": "#344E41",
+          "tertiary-container": "#588157",
+          "secondary": "#588157",
+          "error": "#ba1a1a",
+          "on-tertiary": "#DAD7CD",
+          "primary-fixed-dim": "#588157",
+          "tertiary-fixed": "#A3B18A",
+          "inverse-surface": "#344E41",
+          "on-primary-container": "#A3B18A",
+          "secondary-container": "#A3B18A",
+          "surface-tint": "#588157",
+          "secondary-fixed-dim": "#588157",
+          "on-tertiary-fixed": "#344E41",
+          "surface-dim": "#B5B2A8",
+          "on-secondary-container": "#344E41",
+          "on-secondary-fixed-variant": "#3A5A40",
+          "on-tertiary-fixed-variant": "#3A5A40",
+          "primary": "#344E41",
+          "on-error-container": "#93000a",
+          "surface-variant": "#C0BDB3",
+          "surface": "#DAD7CD",
+          "on-surface": "#344E41",
+          "error-container": "#ffdad6",
+          "on-primary-fixed": "#344E41",
+          "on-secondary": "#DAD7CD",
+          "outline": "#588157",
+          "on-primary": "#DAD7CD",
+          "on-primary-fixed-variant": "#3A5A40",
+          "outline-variant": "#A3B18A",
+          "surface-container-high": "#C8C5BB"
+        },
+        borderRadius: {
+          DEFAULT: "0.125rem",
+          lg: "0.25rem",
+          xl: "0.5rem",
+          full: "0.75rem"
+        },
+        spacing: {
+          "container-max": "1280px",
+          "section-gap": "120px",
+          "gutter": "32px",
+          "margin-edge": "48px",
+          "unit": "8px"
+        },
+        fontFamily: {
+          "headline-md": ["Noto Serif"],
+          "headline-xl": ["Noto Serif"],
+          "body-md": ["Manrope"],
+          "headline-lg": ["Noto Serif"],
+          "label-caps": ["Manrope"],
+          "body-lg": ["Manrope"]
+        },
+        fontSize: {
+          "headline-md": ["24px", { lineHeight: "1.3", fontWeight: "600" }],
+          "headline-xl": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+          "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+          "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+          "label-caps": ["12px", { lineHeight: "1.0", letterSpacing: "0.1em", fontWeight: "700" }],
+          "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
+        }
+      }
+    }
+  }
+</script>
+<link rel="stylesheet" href="css/main.css"/>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col pt-[88px]">
+
+<!-- Page Loader -->
+<div class="page-loader">
+  <div class="loader-logo" style="transform: translateY(20px)">Checkout</div>
+  <div class="loader-line"></div>
+</div>
+
+<!-- Page Transition Curtain -->
+<div class="page-curtain"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor"></div>
+<div class="cursor-dot"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu">
+  <button class="mobile-menu-close material-symbols-outlined" style="font-size: 32px">close</button>
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="commission.html">Commissions</a>
+  <a href="product.html">The Grandmaster</a>
+</div>
+
+<!-- Cart Drawer -->
+<div class="cart-overlay"></div>
+<div class="cart-drawer">
+  <div class="flex items-center justify-between p-6 border-b border-outline-variant/20">
+    <h3 class="font-headline-md text-headline-md text-primary">Your Cart</h3>
+    <button class="cart-close text-on-surface-variant hover:text-primary transition-colors material-symbols-outlined" onclick="document.querySelector('.cart-drawer').classList.remove('open');document.querySelector('.cart-overlay').classList.remove('open')">close</button>
+  </div>
+  <div class="cart-items flex-1 overflow-y-auto"></div>
+  <div class="p-6 border-t border-outline-variant/20">
+    <div class="flex justify-between items-center mb-4">
+      <span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Total</span>
+      <span class="font-headline-md text-headline-md text-primary text-[20px] cart-total">€0.00</span>
+    </div>
+    <a href="checkout.html" class="w-full bg-primary text-on-primary font-body-md py-4 rounded-lg hover:opacity-90 transition-opacity text-center block">Checkout</a>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast"></div>
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-transparent border-b border-outline-variant/10 transition-all duration-500" id="main-nav">
+  <div class="max-w-container-max mx-auto px-margin-edge py-6">
+    <div class="grid grid-cols-3 items-center">
+      <div class="hidden md:flex gap-8 justify-start">
+        <a class="nav-link text-on-surface hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase tracking-wider" href="gallery.html">Gallery</a>
+        <a class="nav-link text-on-surface hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase tracking-wider" href="commission.html">Commission</a>
+      </div>
+      <div class="col-span-2 md:col-span-1 flex justify-start md:justify-center">
+        <a href="index.html" class="font-headline-lg text-headline-lg font-semibold text-primary hover:opacity-80 transition-opacity">Meža meistars</a>
+      </div>
+      <div class="flex gap-8 justify-end items-center">
+        <div class="hidden md:flex gap-8">
+          <a class="nav-link text-on-surface hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase tracking-wider" href="index.html#about">About</a>
+        </div>
+        <div class="flex gap-4 items-center">
+          <button aria-label="Cart" class="relative text-on-surface hover:text-primary transition-colors duration-300" data-cart-toggle>
+            <span class="material-symbols-outlined">shopping_bag</span>
+            <span class="cart-badge absolute -top-1 -right-1 w-4 h-4 bg-primary text-on-primary text-[10px] rounded-full items-center justify-center hidden">0</span>
+          </button>
+          <button aria-label="Menu" class="mobile-nav-toggle md:hidden text-on-surface hover:text-primary transition-colors duration-300">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="flex-grow">
+  <!-- Checkout Header -->
+  <section class="max-w-container-max mx-auto px-margin-edge pt-16 pb-8">
+    <div class="mb-12" data-fade>
+      <h1 class="font-headline-xl text-headline-xl text-on-surface mb-4">Secure Checkout</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">Review your selections and complete your order.</p>
+    </div>
+  </section>
+
+  <!-- Checkout Form & Summary -->
+  <section class="max-w-container-max mx-auto px-margin-edge pb-section-gap">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+      <!-- Left: Customer Info -->
+      <div class="lg:col-span-7 space-y-gutter">
+        <form id="checkout-form" class="space-y-12">
+          <!-- Contact -->
+          <div class="bg-surface-container-lowest p-8 rounded-xl soft-shadow border border-outline-variant/20">
+            <h2 class="font-headline-md text-headline-md text-primary mb-6 border-b border-outline-variant/30 pb-4">Contact Information</h2>
+            <div class="space-y-6">
+              <div>
+                <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 block uppercase tracking-widest">Email Address *</label>
+                <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface transition-colors duration-300" name="email" placeholder="you@example.com" required type="email"/>
+              </div>
+              <div>
+                <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 block uppercase tracking-widest">Phone Number</label>
+                <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface transition-colors duration-300" name="phone" placeholder="+1 (555) 000-0000" type="tel"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipping -->
+          <div class="bg-surface-container-lowest p-8 rounded-xl soft-shadow border border-outline-variant/20">
+            <h2 class="font-headline-md text-headline-md text-primary mb-6 border-b border-outline-variant/30 pb-4">Shipping Address</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 block uppercase tracking-widest">First Name *</label>
+                <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface transition-colors duration-300" name="first_name" placeholder="John" required type="text"/>
+              </div>
+              <div>
+                <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 block uppercase tracking-widest">Last Name *</label>
+                <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface transition-colors duration-300" name="last_name" placeholder="Doe" required type="text"/>
+              </div>
+              <div class="md:col-span-2">
+                <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 block uppercase tracking-widest">Street Address *</label>
+                <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface transition-colors duration-300" name="address" placeholder="123 Artisan Way" required type="text"/>
+              </div>
+              <div>
+                <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 block uppercase tracking-widest">City *</label>
+                <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface transition-colors duration-300" name="city" placeholder="Riga" required type="text"/>
+              </div>
+              <div>
+                <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 block uppercase tracking-widest">Postal Code *</label>
+                <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface transition-colors duration-300" name="postal" placeholder="LV-1050" required type="text"/>
+              </div>
+              <div class="md:col-span-2">
+                <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 block uppercase tracking-widest">Country *</label>
+                <select class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface transition-colors duration-300" name="country" required>
+                  <option value="">Select country</option>
+                  <option value="LV">Latvia</option>
+                  <option value="EE">Estonia</option>
+                  <option value="LT">Lithuania</option>
+                  <option value="DE">Germany</option>
+                  <option value="GB">United Kingdom</option>
+                  <option value="US">United States</option>
+                  <option value="OTHER">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div class="bg-surface-container-lowest p-8 rounded-xl soft-shadow border border-outline-variant/20">
+            <h2 class="font-headline-md text-headline-md text-primary mb-6 border-b border-outline-variant/30 pb-4">Order Notes</h2>
+            <div>
+              <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 block uppercase tracking-widest">Special Instructions</label>
+              <textarea class="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary px-4 py-3 font-body-md text-body-md text-on-surface transition-colors duration-300 resize-none" name="notes" placeholder="Delivery instructions, gift messages, or custom requests..." rows="4"></textarea>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="pt-4">
+            <button class="w-full bg-primary text-on-primary font-body-md text-body-md py-4 rounded-lg hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-2 ambient-shadow" type="submit" data-magnetic>
+              <span class="material-symbols-outlined">lock</span>
+              Place Order
+            </button>
+            <p class="text-center text-on-surface-variant text-sm mt-4">Your order will be reviewed and confirmed via email within 1-2 business days.</p>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right: Order Summary -->
+      <div class="lg:col-span-5 sticky top-32">
+        <div class="bg-surface-container-lowest p-8 rounded-xl soft-shadow border border-outline-variant/20">
+          <h2 class="font-headline-md text-headline-md text-primary mb-6 border-b border-outline-variant/30 pb-4">Order Summary</h2>
+          <div class="checkout-items space-y-6 mb-6" id="checkout-items">
+            <!-- Populated by JS -->
+          </div>
+          <div class="border-t border-outline-variant/30 pt-6 space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="font-body-md text-body-md text-on-surface-variant">Subtotal</span>
+              <span class="font-body-md text-body-md text-on-surface font-bold" id="checkout-subtotal">€0.00</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="font-body-md text-body-md text-on-surface-variant">Shipping</span>
+              <span class="font-body-md text-body-md text-on-surface font-bold" id="checkout-shipping">Complimentary</span>
+            </div>
+            <div class="flex justify-between items-center border-t border-outline-variant/30 pt-4 mt-4">
+              <span class="font-label-caps text-label-caps text-on-surface uppercase tracking-widest">Total</span>
+              <span class="font-headline-md text-headline-md text-primary text-[24px]" id="checkout-total">€0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-primary text-on-primary font-body-md text-body-md w-full pt-section-gap pb-12 mt-section-gap border-t border-primary-fixed-dim/10">
+  <div class="px-margin-edge max-w-container-max mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-gutter mb-16">
+      <!-- Newsletter Section -->
+      <div class="lg:col-span-4 flex flex-col gap-6 pr-0 lg:pr-12">
+        <h3 class="font-headline-md text-headline-md text-on-primary">Join the Inner Circle</h3>
+        <p class="text-surface-container-lowest/80 text-body-md">
+          Receive exclusive early access to new releases, process insights, and curated collection drops from our Latvian workshop.
+        </p>
+        <form class="flex flex-col gap-3 group" data-newsletter>
+          <div class="relative">
+            <input class="w-full bg-primary-container/50 border-outline-variant/30 rounded-lg py-3 px-4 text-on-primary placeholder:text-on-primary/40 focus:ring-secondary focus:border-secondary transition-all outline-none" placeholder="Your email address" type="email"/>
+          </div>
+          <button class="w-full py-3 bg-secondary text-on-secondary font-label-caps text-label-caps rounded-lg hover:bg-secondary-fixed hover:text-on-secondary-fixed transition-all duration-300 uppercase tracking-widest active:scale-[0.98]" type="submit">
+            Subscribe
+          </button>
+        </form>
+      </div>
+      <!-- Branding & Links -->
+      <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-4 gap-gutter">
+        <div class="md:col-span-1">
+          <div class="font-headline-lg text-headline-lg text-on-primary mb-6">Meža meistars</div>
+          <p class="text-surface-container-lowest/60 text-sm mb-6">Handcrafted wooden and resin furniture, born from the Latvian forests.</p>
+          <div class="flex gap-4">
+            <a aria-label="Instagram" class="w-10 h-10 flex items-center justify-center rounded-full bg-primary-container border border-outline-variant/20 text-on-primary/80 hover:bg-secondary hover:text-on-secondary hover:border-secondary transition-all duration-300" href="#">
+              <span class="material-symbols-outlined text-[20px]">photo_camera</span>
+            </a>
+            <a aria-label="Facebook" class="w-10 h-10 flex items-center justify-center rounded-full bg-primary-container border border-outline-variant/20 text-on-primary/80 hover:bg-secondary hover:text-on-secondary hover:border-secondary transition-all duration-300" href="#">
+              <span class="material-symbols-outlined text-[20px]">groups</span>
+            </a>
+            <a aria-label="Pinterest" class="w-10 h-10 flex items-center justify-center rounded-full bg-primary-container border border-outline-variant/20 text-on-primary/80 hover:bg-secondary hover:text-on-secondary hover:border-secondary transition-all duration-300" href="#">
+              <span class="material-symbols-outlined text-[20px]">push_pin</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-label-caps text-label-caps text-on-primary/50 uppercase tracking-widest mb-6">Collections</h3>
+          <nav class="flex flex-col gap-4">
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="gallery.html">River Tables</a>
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="gallery.html">Chess Boards</a>
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="gallery.html">Live Edge Desks</a>
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="gallery.html">Wall Art</a>
+          </nav>
+        </div>
+        <div>
+          <h3 class="font-label-caps text-label-caps text-on-primary/50 uppercase tracking-widest mb-6">Care</h3>
+          <nav class="flex flex-col gap-4">
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="#">Shipping</a>
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="#">Returns</a>
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="#">Wood Care</a>
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="#">FAQ</a>
+          </nav>
+        </div>
+        <div>
+          <h3 class="font-label-caps text-label-caps text-on-primary/50 uppercase tracking-widest mb-6">Studio</h3>
+          <nav class="flex flex-col gap-4">
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="index.html#about">About Us</a>
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="index.html#process">Process</a>
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="commission.html">Commission</a>
+            <a class="text-on-primary/80 hover:text-on-primary hover:translate-x-1 transition-all duration-300" href="#">Contact</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-on-primary/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-surface-container-lowest/60 text-sm">&copy; 2024 Meža meistars. Masterfully Crafted in Latvia.</p>
+      <div class="flex gap-6 text-sm">
+        <a class="text-surface-container-lowest/60 hover:text-on-primary transition-colors" href="#">Privacy Policy</a>
+        <a class="text-surface-container-lowest/60 hover:text-on-primary transition-colors" href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+// Checkout page: populate order summary from cart
+(function() {
+  const checkoutItems = document.getElementById('checkout-items');
+  const subtotalEl = document.getElementById('checkout-subtotal');
+  const totalEl = document.getElementById('checkout-total');
+  const form = document.getElementById('checkout-form');
+
+  function renderCheckout() {
+    const cart = JSON.parse(localStorage.getItem('mm_cart')) || [];
+    if (cart.length === 0) {
+      checkoutItems.innerHTML = '<p class="text-on-surface-variant font-body-md">Your cart is empty. <a href="gallery.html" class="text-primary underline">Browse the gallery</a>.</p>';
+      subtotalEl.textContent = '€0.00';
+      totalEl.textContent = '€0.00';
+      return;
+    }
+
+    checkoutItems.innerHTML = cart.map(item => `
+      <div class="flex gap-4 items-center">
+        <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-sm">
+        <div class="flex-1">
+          <h4 class="font-body-md text-body-md text-on-surface font-semibold">${item.name}</h4>
+          <p class="font-body-md text-sm text-on-surface-variant">Qty: ${item.qty}</p>
+        </div>
+        <p class="font-body-md text-body-md text-primary font-bold">€${(item.price * item.qty).toFixed(2)}</p>
+      </div>
+    `).join('');
+
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+    subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
+    totalEl.textContent = `€${subtotal.toFixed(2)}`;
+  }
+
+  renderCheckout();
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const cart = JSON.parse(localStorage.getItem('mm_cart')) || [];
+    if (cart.length === 0) {
+      showToast('Your cart is empty');
+      return;
+    }
+
+    const btn = form.querySelector('button[type="submit"]');
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Processing...';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      showToast('Order submitted successfully. We will contact you shortly.');
+      localStorage.removeItem('mm_cart');
+      updateCartBadge();
+      renderCheckout();
+      form.reset();
+    }, 2000);
+  });
+})();
+</script>
+</body>
+</html>

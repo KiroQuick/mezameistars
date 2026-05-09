@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gallery - Artisanal Resin &amp; Wood | Meža meistars</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-tertiary-container": "#A3B18A",
+          "tertiary": "#3A5A40",
+          "inverse-primary": "#588157",
+          "primary-container": "#3A5A40",
+          "inverse-on-surface": "#DAD7CD",
+          "surface-container-highest": "#C0BDB3",
+          "on-surface-variant": "#588157",
+          "primary-fixed": "#A3B18A",
+          "secondary-fixed": "#588157",
+          "surface-container": "#D0CDC3",
+          "surface-container-lowest": "#BDBAB0",
+          "background": "#DAD7CD",
+          "tertiary-fixed-dim": "#588157",
+          "on-error": "#ffffff",
+          "surface-bright": "#DAD7CD",
+          "surface-container-low": "#C8C5BB",
+          "on-secondary-fixed": "#344E41",
+          "on-background": "#344E41",
+          "tertiary-container": "#588157",
+          "secondary": "#588157",
+          "error": "#ba1a1a",
+          "on-tertiary": "#DAD7CD",
+          "primary-fixed-dim": "#588157",
+          "tertiary-fixed": "#A3B18A",
+          "inverse-surface": "#344E41",
+          "on-primary-container": "#A3B18A",
+          "secondary-container": "#A3B18A",
+          "surface-tint": "#588157",
+          "secondary-fixed-dim": "#588157",
+          "on-tertiary-fixed": "#344E41",
+          "surface-dim": "#B5B2A8",
+          "on-secondary-container": "#344E41",
+          "on-secondary-fixed-variant": "#3A5A40",
+          "on-tertiary-fixed-variant": "#3A5A40",
+          "primary": "#344E41",
+          "on-error-container": "#93000a",
+          "surface-variant": "#C0BDB3",
+          "surface": "#DAD7CD",
+          "on-surface": "#344E41",
+          "error-container": "#ffdad6",
+          "on-primary-fixed": "#344E41",
+          "on-secondary": "#DAD7CD",
+          "outline": "#588157",
+          "on-primary": "#DAD7CD",
+          "on-primary-fixed-variant": "#3A5A40",
+          "outline-variant": "#A3B18A",
+          "surface-container-high": "#C8C5BB"
+        },
+        borderRadius: {
+          DEFAULT: "0.125rem",
+          lg: "0.25rem",
+          xl: "0.5rem",
+          full: "0.75rem"
+        },
+        spacing: {
+          "container-max": "1280px",
+          "section-gap": "120px",
+          "gutter": "32px",
+          "margin-edge": "48px",
+          "unit": "8px"
+        },
+        fontFamily: {
+          "headline-md": ["Noto Serif"],
+          "headline-xl": ["Noto Serif"],
+          "body-md": ["Manrope"],
+          "headline-lg": ["Noto Serif"],
+          "label-caps": ["Manrope"],
+          "body-lg": ["Manrope"]
+        },
+        fontSize: {
+          "headline-md": ["24px", { lineHeight: "1.3", fontWeight: "600" }],
+          "headline-xl": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+          "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+          "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+          "label-caps": ["12px", { lineHeight: "1.0", letterSpacing: "0.1em", fontWeight: "700" }],
+          "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
+        }
+      }
+    }
+  }
+</script>
+<link rel="stylesheet" href="css/main.css"/>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md">
+
+<!-- Page Loader -->
+<div class="page-loader">
+  <div class="loader-logo" style="transform: translateY(20px)">Gallery</div>
+  <div class="loader-line"></div>
+</div>
+
+<!-- Page Transition Curtain -->
+<div class="page-curtain"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor"></div>
+<div class="cursor-dot"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu">
+  <button class="mobile-menu-close material-symbols-outlined" style="font-size: 32px">close</button>
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="commission.html">Commissions</a>
+  <a href="product.html">The Grandmaster</a>
+</div>
+
+<!-- Cart Drawer -->
+<div class="cart-overlay"></div>
+<div class="cart-drawer">
+  <div class="flex items-center justify-between p-6 border-b border-outline-variant/20">
+    <h3 class="font-headline-md text-headline-md text-primary">Your Cart</h3>
+    <button class="cart-close text-on-surface-variant hover:text-primary transition-colors material-symbols-outlined" onclick="document.querySelector('.cart-drawer').classList.remove('open');document.querySelector('.cart-overlay').classList.remove('open')">close</button>
+  </div>
+  <div class="cart-items flex-1 overflow-y-auto"></div>
+  <div class="p-6 border-t border-outline-variant/20">
+    <div class="flex justify-between items-center mb-4">
+      <span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Total</span>
+      <span class="font-headline-md text-headline-md text-primary text-[20px] cart-total">$0.00</span>
+    </div>
+    <a href="checkout.html" class="w-full bg-primary text-on-primary font-body-md py-4 rounded-lg hover:opacity-90 transition-opacity text-center block">Checkout</a>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast"></div>
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-transparent border-b border-outline-variant/10 transition-all duration-500" id="main-nav">
+  <div class="max-w-container-max mx-auto px-margin-edge py-6">
+    <div class="grid grid-cols-3 items-center">
+      <div class="hidden md:flex gap-8 justify-start">
+        <a class="nav-link text-on-surface hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase tracking-wider font-bold border-b-2 border-primary pb-1" href="gallery.html">Gallery</a>
+        <a class="nav-link text-on-surface hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase tracking-wider" href="commission.html">Commission</a>
+      </div>
+      <div class="col-span-2 md:col-span-1 flex justify-start md:justify-center">
+        <a href="index.html" class="font-headline-lg text-headline-lg font-semibold text-primary hover:opacity-80 transition-opacity">Meža meistars</a>
+      </div>
+      <div class="flex gap-8 justify-end items-center">
+        <div class="hidden md:flex gap-8">
+          <a class="nav-link text-on-surface hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase tracking-wider" href="index.html#about">About</a>
+        </div>
+        <div class="flex gap-4 items-center">
+          <button aria-label="Cart" class="relative text-on-surface hover:text-primary transition-colors duration-300" data-cart-toggle>
+            <span class="material-symbols-outlined">shopping_bag</span>
+            <span class="cart-badge absolute -top-1 -right-1 w-4 h-4 bg-primary text-on-primary text-[10px] rounded-full items-center justify-center hidden">0</span>
+          </button>
+          <button aria-label="Menu" class="mobile-nav-toggle md:hidden text-on-surface hover:text-primary transition-colors duration-300">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="flex-grow pt-[104px] pb-section-gap">
+  <div class="max-w-container-max mx-auto px-margin-edge">
+    <!-- Page Header -->
+    <div class="mb-gutter text-center md:text-left mt-16 md:mt-24" data-fade>
+      <h1 class="font-headline-xl text-headline-xl text-primary mb-4">Masterworks Gallery</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">A curated collection of one-of-a-kind pieces, where raw, organic live-edge wood meets the sophisticated clarity of liquid resin.</p>
+    </div>
+    <!-- Filters -->
+    <div class="flex flex-wrap items-center gap-4 mb-16 pb-4 border-b border-outline-variant/30" data-fade>
+      <button class="filter-chip active px-6 py-2 rounded-full border border-primary text-on-primary font-label-caps text-label-caps uppercase bg-primary transition-colors duration-300" data-filter="all">All Pieces</button>
+      <button class="filter-chip px-6 py-2 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-label-caps uppercase hover:bg-surface-variant transition-colors duration-300" data-filter="chess">Chess Boards</button>
+      <button class="filter-chip px-6 py-2 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-label-caps uppercase hover:bg-surface-variant transition-colors duration-300" data-filter="serving">Serving &amp; Charcuterie Boards</button>
+      <button class="filter-chip px-6 py-2 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-label-caps uppercase hover:bg-surface-variant transition-colors duration-300" data-filter="commission">Custom Commissions</button>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-gutter gap-y-section-gap" id="gallery-grid">
+
+      <!-- Product 1: Chess Board -->
+      <div class="product-card group cursor-pointer" data-category="chess" data-fade>
+        <a href="product.html" class="block">
+          <div class="relative w-full aspect-[4/5] bg-surface-variant rounded-DEFAULT overflow-hidden mb-6 ambient-shadow">
+            <img alt="The Grandmaster chess board main view" class="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0" src="images/product-01.png"/>
+            <img alt="The Grandmaster chess board alternate angle" class="w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100 absolute inset-0" src="images/product-02.png"/>
+            <div class="absolute top-4 left-4 flex gap-2">
+              <span class="bg-surface-container text-on-background px-3 py-1 rounded-DEFAULT font-label-caps text-label-caps uppercase shadow-sm">Walnut</span>
+              <span class="bg-surface-container text-on-background px-3 py-1 rounded-DEFAULT font-label-caps text-label-caps uppercase shadow-sm">Blue Resin</span>
+            </div>
+          </div>
+        </a>
+        <div>
+          <a href="product.html" class="block">
+            <h3 class="font-headline-md text-headline-md text-primary mb-2 group-hover:text-on-tertiary-container transition-colors">The Grandmaster</h3>
+          </a>
+          <div class="flex justify-between items-center">
+            <p class="font-body-md text-body-md text-on-surface-variant">Chess Board</p>
+            <p class="font-body-md text-body-md text-primary font-bold">$850</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2: River Table -->
+      <div class="product-card group cursor-pointer" data-category="commission" data-fade>
+        <a href="product-river-table.html" class="block">
+          <div class="relative w-full aspect-[4/5] bg-surface-variant rounded-DEFAULT overflow-hidden mb-6 ambient-shadow">
+            <img alt="River table main view" class="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0" src="images/product-03.png"/>
+            <img alt="River table alternate angle" class="w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100 absolute inset-0" src="images/product-04.png"/>
+            <div class="absolute top-4 left-4 flex gap-2">
+              <span class="bg-surface-container text-on-background px-3 py-1 rounded-DEFAULT font-label-caps text-label-caps uppercase shadow-sm">Live Edge</span>
+              <span class="bg-surface-container text-on-background px-3 py-1 rounded-DEFAULT font-label-caps text-label-caps uppercase shadow-sm">Resin</span>
+            </div>
+            <div class="absolute bottom-4 right-4">
+              <span class="bg-primary/90 text-on-primary px-3 py-1 rounded-DEFAULT font-label-caps text-label-caps uppercase backdrop-blur-sm">Commission</span>
+            </div>
+          </div>
+        </a>
+        <div>
+          <a href="product-river-table.html" class="block">
+            <h3 class="font-headline-md text-headline-md text-primary mb-2 group-hover:text-on-tertiary-container transition-colors">River Table</h3>
+          </a>
+          <div class="flex justify-between items-center">
+            <p class="font-body-md text-body-md text-on-surface-variant">Custom Dining Table</p>
+            <p class="font-body-md text-body-md text-primary font-bold">Inquire for Pricing</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3: Serving Board -->
+      <div class="product-card group cursor-pointer" data-category="serving" data-fade>
+        <a href="product-serving-board.html" class="block">
+          <div class="relative w-full aspect-[4/5] bg-surface-variant rounded-DEFAULT overflow-hidden mb-6 ambient-shadow">
+            <img alt="Serving board main view" class="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0" src="images/product-06.png"/>
+            <img alt="Serving board alternate angle" class="w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100 absolute inset-0" src="images/product-07.png"/>
+            <div class="absolute top-4 left-4 flex gap-2">
+              <span class="bg-surface-container text-on-background px-3 py-1 rounded-DEFAULT font-label-caps text-label-caps uppercase shadow-sm">Wood</span>
+              <span class="bg-surface-container text-on-background px-3 py-1 rounded-DEFAULT font-label-caps text-label-caps uppercase shadow-sm">Resin</span>
+            </div>
+          </div>
+        </a>
+        <div>
+          <a href="product-serving-board.html" class="block">
+            <h3 class="font-headline-md text-headline-md text-primary mb-2 group-hover:text-on-tertiary-container transition-colors">Serving Board</h3>
+          </a>
+          <div class="flex justify-between items-center">
+            <p class="font-body-md text-body-md text-on-surface-variant">Serving Board</p>
+            <p class="font-body-md text-body-md text-primary font-bold">$340</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full bg-primary text-on-primary pt-section-gap pb-8 border-t border-primary-fixed-dim/10 mt-auto">
+  <div class="max-w-container-max mx-auto px-margin-edge">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-16">
+      <div class="lg:col-span-1">
+        <h2 class="font-headline-lg text-headline-lg mb-6">Meža meistars</h2>
+        <p class="font-body-md text-body-md text-on-primary/70 mb-8 max-w-sm">
+          Crafting bespoke resin and wood masterpieces. Each piece tells a unique story of nature and artistry.
+        </p>
+        <div class="flex gap-4">
+          <a class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-tertiary-fixed hover:text-on-tertiary-fixed hover:border-tertiary-fixed transition-all duration-300 group" href="#">
+            <span class="material-symbols-outlined text-[20px]">share</span>
+          </a>
+          <a class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-tertiary-fixed hover:text-on-tertiary-fixed hover:border-tertiary-fixed transition-all duration-300 group" href="#">
+            <span class="material-symbols-outlined text-[20px]">public</span>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-label-caps text-label-caps uppercase tracking-wider mb-6 text-tertiary-fixed/80">Explore</h3>
+        <ul class="space-y-4 font-body-md">
+          <li><a class="text-on-primary/70 hover:text-tertiary-fixed transition-colors duration-300 flex items-center gap-2 group" href="gallery.html"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed opacity-0 group-hover:opacity-100 transition-opacity"></span>Gallery</a></li>
+          <li><a class="text-on-primary/70 hover:text-tertiary-fixed transition-colors duration-300 flex items-center gap-2 group" href="commission.html"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed opacity-0 group-hover:opacity-100 transition-opacity"></span>Custom Commissions</a></li>
+          <li><a class="text-on-primary/70 hover:text-tertiary-fixed transition-colors duration-300 flex items-center gap-2 group" href="index.html#process"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed opacity-0 group-hover:opacity-100 transition-opacity"></span>Our Process</a></li>
+          <li><a class="text-on-primary/70 hover:text-tertiary-fixed transition-colors duration-300 flex items-center gap-2 group" href="index.html#about"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed opacity-0 group-hover:opacity-100 transition-opacity"></span>About the Artisan</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-label-caps text-label-caps uppercase tracking-wider mb-6 text-tertiary-fixed/80">Support</h3>
+        <ul class="space-y-4 font-body-md">
+          <li><a class="text-on-primary/70 hover:text-tertiary-fixed transition-colors duration-300 flex items-center gap-2 group" href="#"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed opacity-0 group-hover:opacity-100 transition-opacity"></span>Care Guide</a></li>
+          <li><a class="text-on-primary/70 hover:text-tertiary-fixed transition-colors duration-300 flex items-center gap-2 group" href="#"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed opacity-0 group-hover:opacity-100 transition-opacity"></span>Shipping &amp; Delivery</a></li>
+          <li><a class="text-on-primary/70 hover:text-tertiary-fixed transition-colors duration-300 flex items-center gap-2 group" href="#"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed opacity-0 group-hover:opacity-100 transition-opacity"></span>Returns Policy</a></li>
+          <li><a class="text-on-primary/70 hover:text-tertiary-fixed transition-colors duration-300 flex items-center gap-2 group" href="#"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed opacity-0 group-hover:opacity-100 transition-opacity"></span>FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-label-caps text-label-caps uppercase tracking-wider mb-6 text-tertiary-fixed/80">Newsletter</h3>
+        <p class="font-body-md text-body-md text-on-primary/70 mb-6">Subscribe for updates on new masterworks and studio insights.</p>
+        <form class="space-y-3" data-newsletter>
+          <div class="relative group">
+            <input class="bg-surface/5 border border-on-primary/20 rounded-DEFAULT px-4 py-3 w-full text-on-primary placeholder:text-on-primary/40 focus:outline-none focus:border-tertiary-fixed focus:ring-1 focus:ring-tertiary-fixed transition-all duration-300 font-body-md" placeholder="Your email address" type="email"/>
+          </div>
+          <button class="w-full bg-tertiary-fixed text-on-tertiary-fixed py-3 rounded-DEFAULT font-label-caps text-label-caps uppercase hover:bg-white transition-all duration-300 active:scale-[0.98] shadow-lg shadow-black/20" type="submit">
+            Subscribe Now
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="pt-8 border-t border-on-primary/10 flex flex-col md:flex-row justify-between items-center gap-4 text-on-primary/50 font-body-md text-[14px]">
+      <p>&copy; 2024 Meža meistars. All rights reserved.</p>
+      <div class="flex gap-8">
+        <a class="hover:text-tertiary-fixed transition-colors duration-300" href="#">Privacy Policy</a>
+        <a class="hover:text-tertiary-fixed transition-colors duration-300" href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+// Gallery-specific: filter functionality
+(function() {
+  const buttons = document.querySelectorAll('.filter-chip');
+  const cards = document.querySelectorAll('.product-card');
+  const grid = document.getElementById('gallery-grid');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+
+      buttons.forEach(b => {
+        b.classList.remove('active', 'bg-primary', 'text-on-primary', 'border-primary');
+        b.classList.add('text-on-surface-variant', 'border-outline-variant');
+      });
+      btn.classList.add('active', 'bg-primary', 'text-on-primary', 'border-primary');
+      btn.classList.remove('text-on-surface-variant', 'border-outline-variant');
+
+      cards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          gsap.to(card, { opacity: 1, scale: 1, duration: 0.5, display: 'block' });
+        } else {
+          gsap.to(card, { opacity: 0, scale: 0.95, duration: 0.3, onComplete: () => {
+            card.style.display = 'none';
+          }});
+        }
+      });
+    });
+  });
+
+  // Load more button
+  const loadMore = document.getElementById('load-more');
+  if (loadMore) {
+    loadMore.addEventListener('click', () => {
+      showToast('More masterpieces coming soon');
+    });
+  }
+})();
+</script>
+</body>
+</html>

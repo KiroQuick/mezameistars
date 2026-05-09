@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Custom Commission - Artisanal Resin &amp; Wood | Meža meistars</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-tertiary-container": "#A3B18A",
+          "tertiary": "#3A5A40",
+          "inverse-primary": "#588157",
+          "primary-container": "#3A5A40",
+          "inverse-on-surface": "#DAD7CD",
+          "surface-container-highest": "#C0BDB3",
+          "on-surface-variant": "#588157",
+          "primary-fixed": "#A3B18A",
+          "secondary-fixed": "#588157",
+          "surface-container": "#D0CDC3",
+          "surface-container-lowest": "#BDBAB0",
+          "background": "#DAD7CD",
+          "tertiary-fixed-dim": "#588157",
+          "on-error": "#ffffff",
+          "surface-bright": "#DAD7CD",
+          "surface-container-low": "#C8C5BB",
+          "on-secondary-fixed": "#344E41",
+          "on-background": "#344E41",
+          "tertiary-container": "#588157",
+          "secondary": "#588157",
+          "error": "#ba1a1a",
+          "on-tertiary": "#DAD7CD",
+          "primary-fixed-dim": "#588157",
+          "tertiary-fixed": "#A3B18A",
+          "inverse-surface": "#344E41",
+          "on-primary-container": "#A3B18A",
+          "secondary-container": "#A3B18A",
+          "surface-tint": "#588157",
+          "secondary-fixed-dim": "#588157",
+          "on-tertiary-fixed": "#344E41",
+          "surface-dim": "#B5B2A8",
+          "on-secondary-container": "#344E41",
+          "on-secondary-fixed-variant": "#3A5A40",
+          "on-tertiary-fixed-variant": "#3A5A40",
+          "primary": "#344E41",
+          "on-error-container": "#93000a",
+          "surface-variant": "#C0BDB3",
+          "surface": "#DAD7CD",
+          "on-surface": "#344E41",
+          "error-container": "#ffdad6",
+          "on-primary-fixed": "#344E41",
+          "on-secondary": "#DAD7CD",
+          "outline": "#588157",
+          "on-primary": "#DAD7CD",
+          "on-primary-fixed-variant": "#3A5A40",
+          "outline-variant": "#A3B18A",
+          "surface-container-high": "#C8C5BB"
+        },
+        borderRadius: {
+          DEFAULT: "0.125rem",
+          lg: "0.25rem",
+          xl: "0.5rem",
+          full: "0.75rem"
+        },
+        spacing: {
+          "container-max": "1280px",
+          "section-gap": "120px",
+          "gutter": "32px",
+          "margin-edge": "48px",
+          "unit": "8px"
+        },
+        fontFamily: {
+          "headline-md": ["Noto Serif"],
+          "headline-xl": ["Noto Serif"],
+          "body-md": ["Manrope"],
+          "headline-lg": ["Noto Serif"],
+          "label-caps": ["Manrope"],
+          "body-lg": ["Manrope"]
+        },
+        fontSize: {
+          "headline-md": ["24px", { lineHeight: "1.3", fontWeight: "600" }],
+          "headline-xl": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+          "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+          "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+          "label-caps": ["12px", { lineHeight: "1.0", letterSpacing: "0.1em", fontWeight: "700" }],
+          "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
+        }
+      }
+    }
+  }
+</script>
+<link rel="stylesheet" href="css/main.css"/>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+
+<!-- Page Loader -->
+<div class="page-loader">
+  <div class="loader-logo" style="transform: translateY(20px)">Commission</div>
+  <div class="loader-line"></div>
+</div>
+
+<!-- Page Transition Curtain -->
+<div class="page-curtain"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor"></div>
+<div class="cursor-dot"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu">
+  <button class="mobile-menu-close material-symbols-outlined" style="font-size: 32px">close</button>
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="commission.html">Commissions</a>
+  <a href="product.html">The Grandmaster</a>
+</div>
+
+<!-- Cart Drawer -->
+<div class="cart-overlay"></div>
+<div class="cart-drawer">
+  <div class="flex items-center justify-between p-6 border-b border-outline-variant/20">
+    <h3 class="font-headline-md text-headline-md text-primary">Your Cart</h3>
+    <button class="cart-close text-on-surface-variant hover:text-primary transition-colors material-symbols-outlined" onclick="document.querySelector('.cart-drawer').classList.remove('open');document.querySelector('.cart-overlay').classList.remove('open')">close</button>
+  </div>
+  <div class="cart-items flex-1 overflow-y-auto"></div>
+  <div class="p-6 border-t border-outline-variant/20">
+    <div class="flex justify-between items-center mb-4">
+      <span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Total</span>
+      <span class="font-headline-md text-headline-md text-primary text-[20px] cart-total">$0.00</span>
+    </div>
+    <a href="checkout.html" class="w-full bg-primary text-on-primary font-body-md py-4 rounded-lg hover:opacity-90 transition-opacity text-center block">Checkout</a>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast"></div>
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-transparent border-b border-outline-variant/10 transition-all duration-500" id="main-nav">
+  <div class="max-w-container-max mx-auto px-margin-edge py-6">
+    <div class="grid grid-cols-3 items-center">
+      <div class="hidden md:flex gap-8 justify-start">
+        <a class="nav-link text-on-surface hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase tracking-wider" href="gallery.html">Gallery</a>
+        <a class="nav-link text-on-surface hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase tracking-wider font-bold border-b-2 border-primary pb-1" href="commission.html">Commission</a>
+      </div>
+      <div class="col-span-2 md:col-span-1 flex justify-start md:justify-center">
+        <a href="index.html" class="font-headline-lg text-headline-lg font-semibold text-primary hover:opacity-80 transition-opacity">Meža meistars</a>
+      </div>
+      <div class="flex gap-8 justify-end items-center">
+        <div class="hidden md:flex gap-8">
+          <a class="nav-link text-on-surface hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase tracking-wider" href="index.html#about">About</a>
+        </div>
+        <div class="flex gap-4 items-center">
+          <button aria-label="Cart" class="relative text-on-surface hover:text-primary transition-colors duration-300" data-cart-toggle>
+            <span class="material-symbols-outlined">shopping_bag</span>
+            <span class="cart-badge absolute -top-1 -right-1 w-4 h-4 bg-primary text-on-primary text-[10px] rounded-full items-center justify-center hidden">0</span>
+          </button>
+          <button aria-label="Menu" class="mobile-nav-toggle md:hidden text-on-surface hover:text-primary transition-colors duration-300">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="flex-grow pt-[120px] pb-section-gap px-margin-edge">
+  <div class="max-w-container-max mx-auto">
+    <!-- Header Section -->
+    <div class="mb-section-gap max-w-3xl" data-fade>
+      <h1 class="font-headline-xl text-headline-xl text-primary mb-6">Commission a Masterpiece</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+        Begin the process of creating a bespoke functional art piece. We collaborate closely to select the perfect grain, hue, and form to suit your space. Share your vision below, and our Master Maker will review your inquiry.
+      </p>
+    </div>
+
+    <!-- Form Container - Asymmetric Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+      <!-- Left Column: Form -->
+      <div class="lg:col-span-7 bg-surface-container-lowest p-8 md:p-12 rounded-xl soft-shadow">
+        <form id="commission-form" class="space-y-12">
+          <!-- Client Details -->
+          <div class="space-y-6">
+            <h2 class="font-headline-md text-headline-md text-primary border-b border-outline-variant/30 pb-4">Client Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex flex-col">
+                <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase tracking-widest">First Name *</label>
+                <input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface transition-colors duration-300" name="first_name" placeholder="John" required type="text"/>
+              </div>
+              <div class="flex flex-col">
+                <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase tracking-widest">Last Name *</label>
+                <input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface transition-colors duration-300" name="last_name" placeholder="Doe" required type="text"/>
+              </div>
+              <div class="flex flex-col md:col-span-2">
+                <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase tracking-widest">Email Address *</label>
+                <input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface transition-colors duration-300" name="email" placeholder="john.doe@example.com" required type="email"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wood Selection -->
+          <div class="space-y-6">
+            <h2 class="font-headline-md text-headline-md text-primary border-b border-outline-variant/30 pb-4">Wood Selection</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-4">Select the primary species for your piece. Each slab is unique.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="wood-selection">
+              <label class="cursor-pointer group">
+                <input checked class="peer sr-only" name="wood_type" type="radio" value="walnut"/>
+                <div class="selection-card h-32 rounded-lg bg-surface-container overflow-hidden relative border-2 border-transparent peer-checked:border-primary transition-all duration-300">
+                  <img alt="Walnut Wood" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="images/product-01.png"/>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                    <span class="font-body-md text-body-md text-white font-medium">Black Walnut</span>
+                  </div>
+                </div>
+              </label>
+              <label class="cursor-pointer group">
+                <input class="peer sr-only" name="wood_type" type="radio" value="maple"/>
+                <div class="selection-card h-32 rounded-lg bg-surface-container overflow-hidden relative border-2 border-transparent peer-checked:border-primary transition-all duration-300">
+                  <img alt="Maple Wood" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="images/product-04.png"/>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                    <span class="font-body-md text-body-md text-white font-medium">Hard Maple</span>
+                  </div>
+                </div>
+              </label>
+              <label class="cursor-pointer group">
+                <input class="peer sr-only" name="wood_type" type="radio" value="oak"/>
+                <div class="selection-card h-32 rounded-lg bg-surface-container overflow-hidden relative border-2 border-transparent peer-checked:border-primary transition-all duration-300">
+                  <img alt="White Oak" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="images/product-06.png"/>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                    <span class="font-body-md text-body-md text-white font-medium">White Oak</span>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Resin Color -->
+          <div class="space-y-6">
+            <h2 class="font-headline-md text-headline-md text-primary border-b border-outline-variant/30 pb-4">Resin Pigment</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-4">Choose a tone that complements your interior. Custom mixing is available upon request.</p>
+            <div class="flex flex-wrap gap-4" id="resin-selection">
+              <label class="cursor-pointer group relative">
+                <input checked class="peer sr-only" name="resin_color" type="radio" value="deep_sea"/>
+                <div class="w-12 h-12 rounded-full bg-[#344E41] border-2 border-surface-container-highest peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary/30 peer-checked:scale-110 transition-all shadow-sm"></div>
+                <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity font-label-caps text-label-caps whitespace-nowrap text-on-surface-variant">Deep Sea</div>
+              </label>
+              <label class="cursor-pointer group relative">
+                <input class="peer sr-only" name="resin_color" type="radio" value="emerald"/>
+                <div class="w-12 h-12 rounded-full bg-[#506448] border-2 border-surface-container-highest peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary/30 peer-checked:scale-110 transition-all shadow-sm"></div>
+                <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity font-label-caps text-label-caps whitespace-nowrap text-on-surface-variant">Emerald</div>
+              </label>
+              <label class="cursor-pointer group relative">
+                <input class="peer sr-only" name="resin_color" type="radio" value="charcoal"/>
+                <div class="w-12 h-12 rounded-full bg-[#30312e] border-2 border-surface-container-highest peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary/30 peer-checked:scale-110 transition-all shadow-sm"></div>
+                <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity font-label-caps text-label-caps whitespace-nowrap text-on-surface-variant">Charcoal</div>
+              </label>
+              <label class="cursor-pointer group relative">
+                <input class="peer sr-only" name="resin_color" type="radio" value="copper"/>
+                <div class="w-12 h-12 rounded-full bg-[#588157] border-2 border-surface-container-highest peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary/30 peer-checked:scale-110 transition-all shadow-sm"></div>
+                <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity font-label-caps text-label-caps whitespace-nowrap text-on-surface-variant">Copper</div>
+              </label>
+              <label class="cursor-pointer group relative">
+                <input class="peer sr-only" name="resin_color" type="radio" value="clear"/>
+                <div class="w-12 h-12 rounded-full bg-white/50 backdrop-blur-sm border-2 border-outline-variant peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary/30 peer-checked:scale-110 transition-all shadow-sm relative overflow-hidden">
+                  <div class="absolute inset-0 bg-gradient-to-br from-white/80 to-transparent"></div>
+                </div>
+                <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity font-label-caps text-label-caps whitespace-nowrap text-on-surface-variant">Clear Glass</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Board Style -->
+          <div class="space-y-6 pt-4">
+            <h2 class="font-headline-md text-headline-md text-primary border-b border-outline-variant/30 pb-4">Style &amp; Purpose</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="style-selection">
+              <label class="cursor-pointer">
+                <input checked class="peer sr-only" name="board_style" type="radio" value="river"/>
+                <div class="selection-card p-4 rounded-lg border border-outline-variant/50 bg-surface text-center peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-on-primary-fixed transition-colors duration-300">
+                  <span class="material-symbols-outlined block mb-2 text-[32px]">waves</span>
+                  <span class="font-body-md text-body-md font-semibold">River Table</span>
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input class="peer sr-only" name="board_style" type="radio" value="serving"/>
+                <div class="selection-card p-4 rounded-lg border border-outline-variant/50 bg-surface text-center peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-on-primary-fixed transition-colors duration-300">
+                  <span class="material-symbols-outlined block mb-2 text-[32px]">restaurant</span>
+                  <span class="font-body-md text-body-md font-semibold">Serving Board</span>
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input class="peer sr-only" name="board_style" type="radio" value="chess"/>
+                <div class="selection-card p-4 rounded-lg border border-outline-variant/50 bg-surface text-center peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-on-primary-fixed transition-colors duration-300">
+                  <span class="material-symbols-outlined block mb-2 text-[32px]">grid_on</span>
+                  <span class="font-body-md text-body-md font-semibold">Chess Board</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Design Vision -->
+          <div class="space-y-6 pt-4">
+            <h2 class="font-headline-md text-headline-md text-primary border-b border-outline-variant/30 pb-4">Design Vision</h2>
+            <div class="flex flex-col">
+              <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase tracking-widest">Describe your ideal piece (Dimensions, intended use, special requests)</label>
+              <textarea class="bg-surface-container-low border border-outline-variant/50 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary px-4 py-3 font-body-md text-body-md text-on-surface transition-colors duration-300 resize-none" name="description" placeholder="I'm looking for a dining table approximately 72 inches long to seat 6 people. I love the look of intense live edges..." rows="5"></textarea>
+            </div>
+          </div>
+
+          <!-- Submit Action -->
+          <div class="pt-8 border-t border-outline-variant/30 flex justify-end">
+            <button class="bg-primary text-on-primary font-body-md text-body-md px-8 py-4 rounded-lg hover:bg-primary/90 transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2" type="submit" data-magnetic>
+              Submit Inquiry
+              <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Inspirational Gallery &amp; Spec Sheet Style Info -->
+      <div class="lg:col-span-5 space-y-gutter hidden lg:block sticky top-32">
+        <!-- Inspirational Card -->
+        <div class="rounded-xl overflow-hidden relative soft-shadow group">
+          <img alt="River Table Inspiration" class="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-[1000ms]" src="images/product-05.png"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 p-8 glass-panel w-full border-t border-white/20">
+            <h3 class="font-headline-md text-headline-md text-primary mb-2">The Process</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-4">Every commission begins with a curated slab selection. We source only sustainably harvested timber, air-dried for years before entering the kiln.</p>
+            <a class="font-body-md text-body-md text-primary font-bold hover:underline flex items-center gap-1" href="index.html#process">
+              Learn about our sourcing <span class="material-symbols-outlined text-[18px]">east</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Spec Sheet Style Info -->
+        <div class="bg-surface-container-low p-8 rounded-xl soft-shadow border border-outline-variant/20">
+          <h3 class="font-headline-md text-headline-md text-primary mb-6">Commission Timeline</h3>
+          <ul class="space-y-4">
+            <li class="flex justify-between items-center border-b border-outline-variant/30 pb-3">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Initial Consultation</span>
+              <span class="font-headline-md text-headline-md text-primary text-[16px]">1-2 Days</span>
+            </li>
+            <li class="flex justify-between items-center border-b border-outline-variant/30 pb-3">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Slab Selection &amp; Deposit</span>
+              <span class="font-headline-md text-headline-md text-primary text-[16px]">Week 1</span>
+            </li>
+            <li class="flex justify-between items-center border-b border-outline-variant/30 pb-3">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Resin Pours &amp; Curing</span>
+              <span class="font-headline-md text-headline-md text-primary text-[16px]">Weeks 2-4</span>
+            </li>
+            <li class="flex justify-between items-center border-b border-outline-variant/30 pb-3">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Planing &amp; Finishing</span>
+              <span class="font-headline-md text-headline-md text-primary text-[16px]">Weeks 5-6</span>
+            </li>
+            <li class="flex justify-between items-center pt-1">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Total Estimated Time</span>
+              <span class="font-headline-md text-headline-md text-primary text-[18px] font-bold">6-8 Weeks</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full py-section-gap bg-primary border-t border-primary-fixed-dim/10 transition-colors duration-300">
+  <div class="max-w-container-max mx-auto px-margin-edge">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+      <div class="md:col-span-5 space-y-8">
+        <div>
+          <div class="font-headline-md text-headline-md text-on-primary mb-4">Meža meistars</div>
+          <p class="font-body-md text-on-primary/70 max-w-sm">Join our artisan community for early access to new slab drops and custom commission openings.</p>
+        </div>
+        <div class="flex flex-col gap-4">
+          <label class="font-label-caps text-label-caps text-on-primary/50 uppercase tracking-widest">Newsletter</label>
+          <form class="flex gap-2 group" data-newsletter>
+            <input class="bg-white/10 border-white/20 rounded-lg px-4 py-2 text-on-primary placeholder:text-on-primary/30 focus:ring-1 focus:ring-on-primary focus:border-transparent transition-all w-full max-w-[240px]" placeholder="your@email.com" type="email"/>
+            <button class="bg-on-primary text-primary px-6 py-2 rounded-lg font-body-md font-semibold hover:bg-secondary-fixed hover:text-on-secondary-fixed transition-all duration-300 active:scale-95" type="submit">Join</button>
+          </form>
+        </div>
+      </div>
+      <div class="md:col-span-4 grid grid-cols-2 gap-8">
+        <div class="space-y-4">
+          <h4 class="font-label-caps text-label-caps text-on-primary uppercase tracking-widest">Company</h4>
+          <nav class="flex flex-col gap-3 font-body-md text-on-primary/70">
+            <a class="hover:text-on-primary hover:translate-x-1 transition-all" href="index.html#about">About Us</a>
+            <a class="hover:text-on-primary hover:translate-x-1 transition-all" href="index.html#process">Our Process</a>
+            <a class="hover:text-on-primary hover:translate-x-1 transition-all" href="commission.html">Sourcing</a>
+            <a class="hover:text-on-primary hover:translate-x-1 transition-all" href="#">Contact</a>
+          </nav>
+        </div>
+        <div class="space-y-4">
+          <h4 class="font-label-caps text-label-caps text-on-primary uppercase tracking-widest">Support</h4>
+          <nav class="flex flex-col gap-3 font-body-md text-on-primary/70">
+            <a class="hover:text-on-primary hover:translate-x-1 transition-all" href="#">Care Guide</a>
+            <a class="hover:text-on-primary hover:translate-x-1 transition-all" href="#">Shipping</a>
+            <a class="hover:text-on-primary hover:translate-x-1 transition-all" href="#">Returns</a>
+            <a class="hover:text-on-primary hover:translate-x-1 transition-all" href="#">Privacy Policy</a>
+          </nav>
+        </div>
+      </div>
+      <div class="md:col-span-3 flex flex-col items-start md:items-end gap-6">
+        <h4 class="font-label-caps text-label-caps text-on-primary uppercase tracking-widest">Follow Our Craft</h4>
+        <div class="flex gap-4">
+          <a class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-on-primary hover:bg-white/10 hover:border-white/50 transition-all active:scale-90" href="#">
+            <span class="material-symbols-outlined text-[20px]">camera</span>
+          </a>
+          <a class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-on-primary hover:bg-white/10 hover:border-white/50 transition-all active:scale-90" href="#">
+            <span class="material-symbols-outlined text-[20px]">public</span>
+          </a>
+          <a class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-on-primary hover:bg-white/10 hover:border-white/50 transition-all active:scale-90" href="#">
+            <span class="material-symbols-outlined text-[20px]">grid_view</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="mt-section-gap pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="font-body-md text-on-primary/50">&copy; 2024 Meža meistars. Masterfully Crafted.</p>
+      <div class="flex gap-6 text-on-primary/50 text-[12px]">
+        <span>Handcrafted in Saldus, Latvia</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+// Commission page-specific: form validation and submission
+(function() {
+  const form = document.getElementById('commission-form');
+  if (!form) return;
+
+  // Selection card highlighting
+  document.querySelectorAll('#wood-selection input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('#wood-selection .selection-card').forEach(c => c.classList.remove('selected'));
+      if (radio.checked) {
+        radio.closest('label').querySelector('.selection-card').classList.add('selected');
+      }
+    });
+  });
+
+  document.querySelectorAll('#style-selection input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('#style-selection .selection-card').forEach(c => c.classList.remove('selected'));
+      if (radio.checked) {
+        radio.closest('label').querySelector('.selection-card').classList.add('selected');
+      }
+    });
+  });
+
+  // Initialize selected states
+  document.querySelectorAll('#wood-selection input:checked, #style-selection input:checked').forEach(radio => {
+    radio.closest('label').querySelector('.selection-card').classList.add('selected');
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const firstName = form.querySelector('input[name="first_name"]').value.trim();
+    const lastName = form.querySelector('input[name="last_name"]').value.trim();
+    const email = form.querySelector('input[name="email"]').value.trim();
+
+    if (!firstName || !lastName || !email) {
+      showToast('Please fill in all required fields');
+      return;
+    }
+
+    const wood = form.querySelector('input[name="wood_type"]:checked').value;
+    const resin = form.querySelector('input[name="resin_color"]:checked').value;
+    const style = form.querySelector('input[name="board_style"]:checked').value;
+    const desc = form.querySelector('textarea[name="description"]').value.trim();
+
+    // Simulate submission
+    const btn = form.querySelector('button[type="submit"]');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Sending...';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+      showToast(`Thank you, ${firstName}. Your commission inquiry has been received. We'll be in touch within 1-2 business days.`);
+      form.reset();
+      document.querySelectorAll('.selection-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.selection-card').forEach((c, i) => {
+        if (i === 0) c.classList.add('selected');
+      });
+    }, 2000);
+  });
+})();
+</script>
+</body>
+</html>
