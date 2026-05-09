@@ -494,7 +494,7 @@
       };
 
       var currentLang = localStorage.getItem('mm_lang') || 'en';
-      var langToggle = document.getElementById('lang-toggle');
+      var langToggles = document.querySelectorAll('.lang-toggle');
 
       function setLanguage(lang) {
         currentLang = lang;
@@ -511,14 +511,16 @@
           if (t[key] !== undefined) el.innerHTML = t[key];
         });
 
-        if (langToggle) langToggle.textContent = lang === 'en' ? 'LV' : 'EN';
-      }
-
-      if (langToggle) {
-        langToggle.addEventListener('click', function() {
-          setLanguage(currentLang === 'en' ? 'lv' : 'en');
+        langToggles.forEach(function(btn) {
+          btn.textContent = lang === 'en' ? 'LV' : 'EN';
         });
       }
+
+      langToggles.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          setLanguage(currentLang === 'en' ? 'lv' : 'en');
+        });
+      });
 
       setLanguage(currentLang);
     })();

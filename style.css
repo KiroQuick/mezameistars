@@ -134,6 +134,14 @@
       color: var(--dust); font-weight: 600;
     }
     .mobile-menu-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: var(--dust); font-size: 1.5rem; cursor: none; }
+    .mobile-lang-toggle {
+      margin-top: 1rem;
+      background: transparent; color: var(--dust); border: 1px solid rgba(226,218,219,0.3);
+      padding: 0.6rem 1rem; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.05em; cursor: pointer; border-radius: 2px; transition: all 0.3s ease;
+      min-width: 44px; text-align: center;
+    }
+    .mobile-lang-toggle:hover { border-color: var(--lime); color: var(--lime); }
 
     /* Typography */
     .label {
