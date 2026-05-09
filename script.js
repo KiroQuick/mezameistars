@@ -216,43 +216,9 @@
           setTimeout(function() { toast.classList.remove('show'); }, 3500);
         }
         if (form) {
-          form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var name = form.querySelector('[name="name"]').value.trim();
-            var t = translations[currentLang];
-            if (!name) { showToast(t.toast_name); return; }
-
-            var email = form.querySelector('[name="email"]').value.trim();
-            var phone = form.querySelector('[name="phone"]').value.trim();
-            var productType = form.querySelector('[name="product_type"]').value;
-            var wood = form.querySelector('[name="wood"]').value;
-            var epoxy = form.querySelector('[name="epoxy"]').value;
-            var size = form.querySelector('[name="size"]').value.trim();
-            var budget = form.querySelector('[name="budget"]').value.trim();
-            var engraving = form.querySelector('[name="engraving"]').value.trim();
-            var message = form.querySelector('[name="message"]').value.trim();
-
-            var subject = encodeURIComponent('Custom Board Request — ' + name);
-            var bodyLines = [
-              'Name: ' + name,
-              'Email: ' + email,
-              'Phone: ' + (phone || '-'),
-              'Product: ' + (productType || '-'),
-              'Wood: ' + (wood || '-'),
-              'Epoxy: ' + (epoxy || '-'),
-              'Size: ' + (size || '-'),
-              'Budget: ' + (budget ? '€' + budget : '-'),
-              'Engraving: ' + (engraving || '-'),
-              '',
-              'Message:',
-              message || '-'
-            ];
-            var body = encodeURIComponent(bodyLines.join('\n'));
-
-            window.location.href = 'mailto:Mezameistars387@gmail.com?subject=' + subject + '&body=' + body;
-            showToast(t.toast_thanks.replace('{name}', name));
-            form.reset();
-            closeModal();
+          form.addEventListener('submit', function() {
+            showToast(translations[currentLang].toast_thanks.replace('{name}',
+              form.querySelector('[name="name"]').value.trim()));
           });
         }
 
